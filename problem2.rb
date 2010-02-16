@@ -14,6 +14,7 @@ fibs = {0 => 0, 1 => 1}
 
 (2..upper_bound).each {|n| fibs[n] = fibs[(n - 1)] + fibs[(n - 2)]}
 
+fibs.keys.each {|k| puts "fibs[#{k}] = #{fibs[k]}"}
 result = 0
 fibs.keys.each {|k| result += fibs[k] if k % 2 == 0}
 
