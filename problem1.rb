@@ -12,3 +12,4 @@ result = 0
 end
 
 puts "#{result}"
+
