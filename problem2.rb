@@ -15,16 +15,37 @@
 # The sum of the first n Fibonacci numbers, Fj, such that j is even, is the
 # (2n + 1)th Fibonacci number minus 1.
 
+
+
 upper_bound = ARGV[0].to_i
-upper_bound = 3999999 if upper_bound.eql?(0)
+upper_bound = 400000 if upper_bound.eql?(0)
+
 
 fibs = {0 => 0, 1 => 1}
 
-(2..upper_bound).each {|n| fibs[n] = fibs[(n - 1)] + fibs[(n - 2)]}
 
-#fibs.keys.each {|k| puts "fibs[#{k}] = #{fibs[k]}"}
+# this is ugly as shit...
+# could be done *MUCH* better
 
-result = 0
-fibs.keys.each {|k| result += fibs[k] if k % 2 == 0}
 
+def fib2(fibs)
+  return Proc.new do |n|
+    if n == 0 || n == 1
+      fibs[n]
+    else
+      fibs[n] = fibs[(n - 1)] + fibs[(n - 2)]
+    end
+  end
+end
+
+n = 0
+fib = fib2(fibs)
+while (fib.call(n) <= upper_bound)
+  n += 1
+  fib.call(n)
+end
+
+fibs.delete_if {|k, v| v > upper_bound}
+
+result = fibs.values.reduce(0) {|m, v| m += v % 2 == 0 ? v : 0}
 puts "#{result}"
